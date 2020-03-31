@@ -1,0 +1,16 @@
+#!/bin/bash
+# Install Spark on CentOS 7
+
+yum clean all
+yum -y install epel-release
+yum -y update
+yum install -y gcc openssl-devel bzip2-devel libffi-devel wget
+
+yum install java -y
+java -version 
+
+python -V
+
+cd /opt
+wget https://downloads.apache.org/spark/spark-2.4.5/spark-2.4.5-bin-hadoop2.7.tgz
+tar -xzf spark-2.4.5-bin-hadoop2.7.tgz
