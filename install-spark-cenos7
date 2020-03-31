@@ -30,3 +30,6 @@ firewall-cmd --permanent --zone=public --add-port=6066/tcp
 firewall-cmd --permanent --zone=public --add-port=7077/tcp
 firewall-cmd --permanent --zone=public --add-port=8080-8081/tcp
 firewall-cmd --reload
+
+yum -y install python-pip
+pip install pyspark
