@@ -4,7 +4,12 @@
 yum clean all
 yum -y install epel-release
 yum -y update
-yum install -y gcc openssl-devel bzip2-devel libffi-devel wget
+yum install -y gcc openssl-devel bzip2-devel libffi-devel wget httpd firewalld
+service httpd start
+systemctl start firewalld
+systemctl enable firewalld
+systemctl status firewalld
+
 
 yum install java -y
 java -version 
@@ -14,3 +19,14 @@ python -V
 cd /opt
 wget https://downloads.apache.org/spark/spark-2.4.5/spark-2.4.5-bin-hadoop2.7.tgz
 tar -xzf spark-2.4.5-bin-hadoop2.7.tgz
+
+export SPARK_HOME=/opt/spark-2.4.5-bin-hadoop2.7  
+export PATH=$PATH:$SPARK_HOME/bin
+
+echo 'export SPARK_HOME=/opt/spark-2.4.5-bin-hadoop2.7' >> .bash_profile
+echo 'export PATH=$PATH:$SPARK_HOME/bin' >> .bash_profile
+
+firewall-cmd --permanent --zone=public --add-port=6066/tcp
+firewall-cmd --permanent --zone=public --add-port=7077/tcp
+firewall-cmd --permanent --zone=public --add-port=8080-8081/tcp
+firewall-cmd --reload
