@@ -5,9 +5,13 @@ yum clean all
 yum -y install epel-release
 yum -y update
 
-yum install -y gcc openssl-devel bzip2-devel libffi libffi-devel wget java git
+#yum install -y gcc openssl-devel bzip2-devel libffi libffi-devel wget java git
+yum install -y python3 wget java git
+java -version
+python3 -V
+pip3 -V
 
-java -version 
+pip3 install pyspark
 
 cd /opt
 wget https://downloads.apache.org/spark/spark-2.4.5/spark-2.4.5-bin-hadoop2.7.tgz
@@ -19,10 +23,6 @@ export PATH=$PATH:$SPARK_HOME/bin
 echo 'export SPARK_HOME=/opt/spark-2.4.5-bin-hadoop2.7' >> .bash_profile
 echo 'export PATH=$PATH:$SPARK_HOME/bin' >> .bash_profile
 
-yum install python36 -y
-pip3 install pyspark
-
 git clone https://github.com/lakshay-arora/PySpark.git
 
-yum -y install python-pip
-pip install pyspark
+
