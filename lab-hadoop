@@ -95,3 +95,93 @@ ssh master2 cat /etc/hosts
 ssh worker1 cat /etc/hosts
 ssh worker2 cat /etc/hosts 
 ssh worker3 cat /etc/hosts
+
+#install MariaDB
+yum install -y mariadb-server
+systemctl enable mariadb
+systemctl start mariadb
+
+#setup MySQL JDBC
+yum install -y bash-completion-extras
+wget https://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-java-5.1.46.tar.gz
+tar xvf mysql-connector-java-5.1.46.tar.gz
+mkdir -p /usr/share/java
+cp mysql-connector-java-5.1.46/mysql-connector-java-5.1.46.jar /usr/share/java
+ln -sf /usr/share/java/mysql-connector-java-5.1.46.jar /usr/share/java/mysql-connector-java.jar
+#ln คือ ใช้ในการสร้าง link เชื่อมโยงกันระหว่าง file
+
+# Cloudera Enterprise 6 Installation
+# Cloudera Manager 6.3 Installation Guide
+# https://www.cloudera.com/documentation/enterprise/6/6.3/topics/installation.html
+
+wget http://203.150.243.131/repos/cm6/6.3.1/cloudera-manager.repo -P /etc/yum.repos.d/
+vi /etc/yum.repos.d/cloudera-manager.repo
+
+------------------------------------------------------------------
+baseurl=http://203.150.243.131/repos/cm6/6.3.1/
+gpgkey=http://203.150.243.131/repos/cm6/6.3.1/RPM-GPG-KEY-cloudera
+------------------------------------------------------------------
+
+#Install Cloudera Manager
+yum install -y oracle-j2sdk1.8 cloudera-manager-server
+
+#Creating Databases (MariaDB) for Cloudera Software
+#create db 'scm', 'amon' , 'rman', 'hue', 'metastore', 'sebtry', 'nav', 'navms', 'oozie'
+mysql
+
+CREATE DATABASE scm DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci;
+GRANT ALL ON scm.* TO 'scm'@'%' IDENTIFIED BY 'password';
+grant all on scm.* to 'scm'@'localhost' identified by 'password';
+grant all on scm.* to 'scm'@'edge.ts.com' identified by 'password';
+
+CREATE DATABASE amon DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci;
+GRANT ALL ON amon.* TO 'amon'@'%' IDENTIFIED BY 'password';
+grant all on amon.* to 'amon'@'localhost' identified by 'password';
+grant all on amon.* to 'amon'@'edge.ts.com' identified by 'password';
+
+CREATE DATABASE rman DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci;
+GRANT ALL ON rman.* TO 'rman'@'%' IDENTIFIED BY 'password';
+grant all on rman.* to 'rman'@'localhost' identified by 'password';
+grant all on rman.* to 'rman'@'edge.ts.com' identified by 'password';
+
+CREATE DATABASE hue DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci;
+GRANT ALL ON hue.* TO 'hue'@'%' IDENTIFIED BY 'password';
+grant all on hue.* to 'hue'@'localhost' identified by 'password';
+grant all on hue.* to 'hue'@'edge.ts.com' identified by 'password';
+
+CREATE DATABASE metastore DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci;
+GRANT ALL ON metastore.* TO 'hive'@'%' IDENTIFIED BY 'password';
+grant all on metastore.* to 'hive'@'localhost' identified by 'password';
+grant all on metastore.* to 'hive'@'edge.ts.com' identified by 'password';
+
+CREATE DATABASE sentry DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci;
+GRANT ALL ON sentry.* TO 'sentry'@'%' IDENTIFIED BY 'password';
+grant all on sentry.* to 'sentry'@'localhost' identified by 'password';
+grant all on sentry.* to 'sentry'@'edge.ts.com' identified by 'password';
+
+CREATE DATABASE nav DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci;
+GRANT ALL ON nav.* TO 'nav'@'%' IDENTIFIED BY 'password';
+grant all on nav.* to 'nav'@'localhost' identified by 'password';
+grant all on nav.* to 'nav'@'edge.ts.com' identified by 'password';
+
+CREATE DATABASE navms DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci;
+GRANT ALL ON navms.* TO 'navms'@'%' IDENTIFIED BY 'password';
+grant all on navms.* to 'navms'@'localhost' identified by 'password';
+grant all on navms.* to 'navms'@'edge.ts.com' identified by 'password';
+
+CREATE DATABASE oozie DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci;
+GRANT ALL ON oozie.* TO 'oozie'@'%' IDENTIFIED BY 'password';
+grant all on oozie.* to 'oozie'@'localhost' identified by 'password';
+grant all on oozie.* to 'oozie'@'edge.ts.com' identified by 'password';
+
+exit;
+
+#List all dbs
+mysql
+show databases;
+
+
+
+
+
+
