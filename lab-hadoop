@@ -29,3 +29,37 @@ ssh worker1 hostnamectl set-hostname worker1.ts.com
 ssh worker2 hostnamectl set-hostname worker2.ts.com
 ssh worker3 hostnamectl set-hostname worker3.ts.com
 
+# create hosts file on /home/ 
+cd /home/
+vi hosts
+
+master1
+master2
+worker1
+worker2
+worker3
+
+# install pdsh - can run multiple remote commands in parallel from single remote host.
+yum install -y pdsh
+
+#However, you may have issue about permission denied when run pdsh to remote on the other server
+#Use on main server is enough and run once per cmd
+ssh-keygen
+
+cat ~/.ssh/id_rsa.pub | ssh master1 'cat >> .ssh/authorized_keys'
+cat ~/.ssh/id_rsa.pub | ssh master2 'cat >> .ssh/authorized_keys'
+
+cat ~/.ssh/id_rsa.pub | ssh worker1 'cat >> .ssh/authorized_keys'
+cat ~/.ssh/id_rsa.pub | ssh worker2 'cat >> .ssh/authorized_keys'
+cat ~/.ssh/id_rsa.pub | ssh worker3 'cat >> .ssh/authorized_keys'
+
+#test pdsh one target node again
+pdsh -w master1 hostname 
+#master1: master1.ts.com -it's working fine
+
+pdsh -w ^hosts hostname
+#worker3: worker3.ts.com
+#master1: master1.ts.com
+#worker2: worker2.ts.com
+#worker1: worker1.ts.com
+#master2: master2.ts.com
