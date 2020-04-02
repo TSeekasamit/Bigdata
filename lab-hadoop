@@ -9,6 +9,8 @@ java -version
 
 # config ip
 vi /etc/hosts
+
+-------------------------------------
 192.168.0.7 edge.ts.com edge
 
 192.168.0.9 master1.ts.com master1
@@ -17,6 +19,7 @@ vi /etc/hosts
 192.168.0.30 worker1.ts.com worker1
 192.168.0.12 worker2.ts.com worker2
 192.168.0.5 worker3.ts.com worker3
+-------------------------------------
 
 # set hostname should once per cmd
 
@@ -33,11 +36,13 @@ ssh worker3 hostnamectl set-hostname worker3.ts.com
 cd /home/
 vi hosts
 
+---------
 master1
 master2
 worker1
 worker2
 worker3
+---------
 
 # install pdsh - can run multiple remote commands in parallel from single remote host.
 yum install -y pdsh
@@ -53,7 +58,7 @@ cat ~/.ssh/id_rsa.pub | ssh worker1 'cat >> .ssh/authorized_keys'
 cat ~/.ssh/id_rsa.pub | ssh worker2 'cat >> .ssh/authorized_keys'
 cat ~/.ssh/id_rsa.pub | ssh worker3 'cat >> .ssh/authorized_keys'
 
-#test pdsh one target node again
+#test pdsh one target node again - dir is /home/
 pdsh -w master1 hostname 
 #master1: master1.ts.com -it's working fine
 
@@ -63,3 +68,30 @@ pdsh -w ^hosts hostname
 #worker2: worker2.ts.com
 #worker1: worker1.ts.com
 #master2: master2.ts.com
+
+#Create dir /root/bin along with script file 'pscp
+mkdir /root/bin
+cd /root/bin
+vi pscp
+
+-------------------------------
+#!/bin/sh
+for i in `cat /root/hosts`
+do
+scp $1 ${i}:$1
+done
+-------------------------------
+
+#config permission setting to exececute
+chmod +x /root/bin/pscp 
+#from -rw-r--r--. to -rwxr-xr-x.
+
+#Send /etc/hosts to all nodes
+pscp /etc/hosts
+
+#Optional : you can check /etc/hosts which the results is same
+ssh master1 cat /etc/hosts
+ssh master2 cat /etc/hosts
+ssh worker1 cat /etc/hosts
+ssh worker2 cat /etc/hosts 
+ssh worker3 cat /etc/hosts
