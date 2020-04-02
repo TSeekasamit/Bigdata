@@ -11,14 +11,14 @@ java -version
 vi /etc/hosts
 
 -------------------------------------
-192.168.0.7 edge.ts.com edge
+192.168.0.x edge.ts.com edge
 
-192.168.0.9 master1.ts.com master1
-192.168.0.3 master2.ts.com master2
+192.168.0.x master1.ts.com master1
+192.168.0.x master2.ts.com master2
 
-192.168.0.30 worker1.ts.com worker1
-192.168.0.12 worker2.ts.com worker2
-192.168.0.5 worker3.ts.com worker3
+192.168.0.x worker1.ts.com worker1
+192.168.0.x worker2.ts.com worker2
+192.168.0.x worker3.ts.com worker3
 -------------------------------------
 
 # set hostname should once per cmd
