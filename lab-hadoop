@@ -1,0 +1,31 @@
+# update system
+yum clean all
+yum -y install epel-release
+yum -y update
+
+# install java and wget
+yum install -y wget java
+java -version
+
+# config ip
+vi /etc/hosts
+192.168.0.7 edge.ts.com edge
+
+192.168.0.9 master1.ts.com master1
+192.168.0.3 master2.ts.com master2
+
+192.168.0.30 worker1.ts.com worker1
+192.168.0.12 worker2.ts.com worker2
+192.168.0.5 worker3.ts.com worker3
+
+# set hostname should once per cmd
+
+hostnamectl set-hostname edge.ts.com
+
+ssh master1 hostnamectl set-hostname master1.ts.com
+ssh master2 hostnamectl set-hostname master2.ts.com
+
+ssh worker1 hostnamectl set-hostname worker1.ts.com
+ssh worker2 hostnamectl set-hostname worker2.ts.com
+ssh worker3 hostnamectl set-hostname worker3.ts.com
+
