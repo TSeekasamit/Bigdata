@@ -1,0 +1,43 @@
+#update the system
+yum clean all
+yum -y install epel-release
+yum -y update
+
+#install java
+yum install -y java-1.8.0-openjdk wget
+java -version
+
+#Create Hadoop user
+useradd -m -d /home/hadoop -s /bin/bash hadoop
+passwd hadoop
+su hadoop
+ssh-keygen
+cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
+chmod 600 ~/.ssh/authorized_keys
+ssh localhost
+
+#Install Hadoop 2.7.7
+wget https://downloads.apache.org/hadoop/common/hadoop-2.7.7/hadoop-2.7.7.tar.gz
+tar -zxvf hadoop-2.7.7.tar.gz 
+mv hadoop-2.7.7 hadoop
+
+#Set environment variable uses by Hadoop
+vi ~/.bashrc
+
+export JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.212.b04-0.el7_6.x86_64/jre   ## Change it according to your system
+export HADOOP_HOME=/home/hadoop/hadoop   ## Change it according to your system
+export HADOOP_INSTALL=$HADOOP_HOME
+export HADOOP_MAPRED_HOME=$HADOOP_HOME
+export HADOOP_COMMON_HOME=$HADOOP_HOME
+export HADOOP_HDFS_HOME=$HADOOP_HOME
+export HADOOP_YARN_HOME=$HADOOP_HOME
+export HADOOP_COMMON_LIB_NATIVE_DIR=$HADOOP_HOME/lib/native
+export PATH=$PATH:$HADOOP_HOME/sbin:$HADOOP_HOME/bin
+
+#Modify Configuration files
+vi $HADOOP_HOME/etc/hadoop/hadoop-env.sh
+
+export JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.212.b04-0.el7_6.x86_64/jre
+
+#Setup Hadoop Configuration Files
+cd $HADOOP_HOME/etc/hadoop
