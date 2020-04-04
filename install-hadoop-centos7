@@ -91,3 +91,5 @@ vi yarn-site.xml
         </property>
 </configuration>
 
+#check the storage directory
+hdfs namenode -format
