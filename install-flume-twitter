@@ -34,4 +34,4 @@ hdfs dfs -ls /user/ts
 flume-ng agent -n TwitterAgent -f $FLUME_HOME/conf/twitter.conf -Dflume.root.logger=INFO,console
 
 #To check the contents of the tweet data we can use the following command:
-hdfs dfs –ls /user/ts/tweets
+hdfs dfs -ls /user/ts/tweets
