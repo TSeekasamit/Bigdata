@@ -1,0 +1,37 @@
+#Ref https://acadgild.com/blog/streaming-twitter-data-using-flume
+
+wget https://downloads.apache.org/flume/1.9.0/apache-flume-1.9.0-bin.tar.gz
+tar -zxf apache-flume-1.9.0-bin.tar.gz 
+
+mv apache-flume-1.9.0-bin flume
+
+vi .bashrc 
+export FLUME_HOME=/home/hadoop/flume
+export PATH=$PATH:$FLUME_HOME/bin
+
+cd /home/hadoop/flume/lib
+
+#Make sure you have below jars placed in your $FLUME_HOME/lib directory:
+#twitter4j-core-X.XX.jar
+#twitter4j-stream-X.X.X.jar
+#twitter4j-media-support-X.X.X.jar
+
+#Create twitter.conf file, you can copy from https://github.com/TSeekasamit/bigdata/blob/master/twitter.conf
+
+cd /home/hadoop/flume/conf
+vi twitter.conf
+
+#Use the ‘jps’ command to see the running Hadoop daemons.
+jps
+
+#Create a new directory inside HDFS path, where the Twitter tweet data should be stored.
+
+hdfs dfs -mkdir -p /user/ts/tweets
+hdfs dfs -ls /user/ts
+
+#Fetch the twitter tweet data into the HDFS cluster path.
+
+flume-ng agent -n TwitterAgent -f $FLUME_HOME/conf/twitter.conf -Dflume.root.logger=INFO,console
+
+#To check the contents of the tweet data we can use the following command:
+hdfs dfs –ls /user/ts/tweets
