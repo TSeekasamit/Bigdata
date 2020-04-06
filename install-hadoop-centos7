@@ -1,3 +1,4 @@
+#Ref https://www.itzgeek.com/how-tos/linux/ubuntu-how-tos/install-apache-hadoop-ubuntu-14-10-centos-7-single-node-cluster.html
 #update the system
 yum clean all
 yum -y install epel-release
