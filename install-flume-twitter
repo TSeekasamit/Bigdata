@@ -30,7 +30,7 @@ hdfs dfs -mkdir -p /user/ts/tweets
 hdfs dfs -ls /user/ts
 
 #Fetch the twitter tweet data into the HDFS cluster path.
-
+#Start Flume agent:
 flume-ng agent -n TwitterAgent -f $FLUME_HOME/conf/twitter.conf -Dflume.root.logger=INFO,console
 
 #To check the contents of the tweet data we can use the following command:
