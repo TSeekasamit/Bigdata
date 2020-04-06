@@ -3,23 +3,23 @@ yum clean all
 yum -y install epel-release
 yum -y update
 
-#install java
-yum install -y java-1.8.0-openjdk wget
+#install java wget ant
+yum install -y java-1.8.0-openjdk wget ant
 java -version
 
 #Create Hadoop user
 useradd -m -d /home/hadoop -s /bin/bash hadoop
 passwd hadoop
 su hadoop
-ssh-keygen
+ssh-keygen -t rsa
 cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
 chmod 600 ~/.ssh/authorized_keys
 ssh localhost
 
-#Install Hadoop 2.7.7
-wget https://downloads.apache.org/hadoop/common/hadoop-2.7.7/hadoop-2.7.7.tar.gz
-tar -zxvf hadoop-2.7.7.tar.gz 
-mv hadoop-2.7.7 hadoop
+#Install Hadoop 3.1.3
+wget https://downloads.apache.org/hadoop/common/hadoop-3.1.3/hadoop-3.1.3.tar.gz
+tar -zxvf hadoop-3.1.3.tar.gz 
+mv hadoop-3.1.3 hadoop
 
 #Set environment variable uses by Hadoop
 vi ~/.bashrc
@@ -97,6 +97,6 @@ hdfs namenode -format
 #In dir /home/hadoop/hadoop/sbin, run start-all.sh 
 #means start-dfs (NameNode daemon and DataNode daemon) port:9870 and
 #start-yarn (Start ResourceManager daemon and NodeManager daemon) port:8088 together
-cd /home/hadoop/hadoop/sbin
+cd /home/hadoop/hadoop/sbin #or cd $HADOOP_HOME/sbin/
 start-all.sh
 
