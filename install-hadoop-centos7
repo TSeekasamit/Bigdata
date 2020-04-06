@@ -47,10 +47,10 @@ cd $HADOOP_HOME/etc/hadoop
 vi core-site.xml
 
 <configuration>
-<property>
-  <name>fs.default.name</name>
-    <value>hdfs://localhost:9000</value>
-</property>
+    <property>
+        <name>fs.default.name</name>
+        <value>hdfs://localhost:9000</value>
+    </property>
 </configuration>
 
 vi hdfs-site.xml
@@ -94,9 +94,22 @@ vi yarn-site.xml
 #check the storage directory
 hdfs namenode -format
 
-#In dir /home/hadoop/hadoop/sbin, run start-all.sh 
-#means start-dfs (NameNode daemon and DataNode daemon) port:9870 and
-#start-yarn (Start ResourceManager daemon and NodeManager daemon) port:8088 together
-cd /home/hadoop/hadoop/sbin #or cd $HADOOP_HOME/sbin/
-start-all.sh
+#In dir /home/hadoop/hadoop/sbin or $HADOOP_HOME/sbin/, run start-dfs.sh (NameNode daemon and DataNode daemon) port:9870
+start-dfs.sh
 
+#start-yarn (Start ResourceManager daemon and NodeManager daemon) port:8088
+start-yarn.sh
+
+#Test Hadoop Single Node Cluster Setup
+hdfs dfs -mkdir -p /user/ts
+
+#Test upload a file into HDFS directory
+hdfs dfs -put ~/.bashrc /user/ts
+
+#You can copy the files from HDFS to your local file systems.
+
+$ hdfs dfs -get /user/ts /tmp/
+
+#You can delete the files and directories using the following commands.
+hdfs dfs -rm -f /user/ts/.bashrc
+hdfs dfs -rmdir /user/ts
