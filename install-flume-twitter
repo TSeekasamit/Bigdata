@@ -3,6 +3,8 @@
 #First of all, you have to install HDFS before using the link below.
 #https://github.com/TSeekasamit/bigdata/blob/master/install-hadoop3.2.1-centos7
 
+##Youtube : https://youtu.be/lfbHAYj0Wck for install-flume-twitter
+
 wget https://downloads.apache.org/flume/1.9.0/apache-flume-1.9.0-bin.tar.gz
 tar -zxf apache-flume-1.9.0-bin.tar.gz 
 
