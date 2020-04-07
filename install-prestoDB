@@ -1,0 +1,77 @@
+#Make sure JAVA is version 8 and your machine is minimum memory size 8 GB
+
+#check version
+jave -version
+
+#if not java 8
+yum install -y java
+java -version
+
+#let's go to run prestoDB
+cd /opt
+wget https://repo1.maven.org/maven2/com/facebook/presto/presto-server/0.233.1/presto-server-0.233.1.tar.gz
+tar -zxf presto-server-0.233.1.tar.gz 
+mv presto-server-0.233.1 presto
+cd presto
+mkdir etc
+cd etc/
+
+#create file named node.properties
+vi node.properties
+
+---------------------------------------------
+node.environment=production
+node.id=ffffffff-ffff-ffff-ffff-ffffffffffff
+node.data-dir=/var/presto/data
+---------------------------------------------
+
+#create file named jvm.config
+vi jvm.config
+
+-----------------------------------------
+-server
+-Xmx16G
+-XX:+UseG1GC
+-XX:G1HeapRegionSize=32M
+-XX:+UseGCOverheadLimit
+-XX:+ExplicitGCInvokesConcurrent
+-XX:+HeapDumpOnOutOfMemoryError
+-XX:+ExitOnOutOfMemoryError
+#create file named config.properties
+-----------------------------------------
+
+vi config.properties
+
+-----------------------------------------
+coordinator=true
+node-scheduler.include-coordinator=false
+http-server.http.port=8080
+query.max-memory=5GB
+query.max-memory-per-node=1GB
+discovery-server.enabled=true
+discovery.uri=http://localhost:8080
+-----------------------------------------
+
+#create file named log.properties
+vi log.properties
+
+--------------------------
+com.facebook.presto=INFO
+--------------------------
+
+#create file named jmx.properties
+vi jmx.properties
+
+-------------------
+connector.name=jmx
+-------------------
+
+cd ..
+
+#run service prestoDB
+bin/launcher run
+
+#open web browser with port you define
+public-ip:8080
+
+
