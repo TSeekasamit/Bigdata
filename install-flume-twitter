@@ -1,5 +1,8 @@
 #Ref https://acadgild.com/blog/streaming-twitter-data-using-flume
 
+#First of all, you have to install HDFS before using the link below.
+#https://github.com/TSeekasamit/bigdata/blob/master/install-hadoop3.2.1-centos7
+
 wget https://downloads.apache.org/flume/1.9.0/apache-flume-1.9.0-bin.tar.gz
 tar -zxf apache-flume-1.9.0-bin.tar.gz 
 
@@ -15,6 +18,9 @@ cd /home/hadoop/flume/lib
 #twitter4j-core-X.XX.jar
 #twitter4j-stream-X.X.X.jar
 #twitter4j-media-support-X.X.X.jar
+
+#Remove lib file for guava-11.0.2.jar may caused have a problem
+rm guava-11.0.2.jar
 
 #Create twitter.conf file, you can copy from https://github.com/TSeekasamit/bigdata/blob/master/twitter.conf
 
